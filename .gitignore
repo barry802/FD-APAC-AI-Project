@@ -5,5 +5,10 @@
 __pycache__
 db.sqlite3
 
+# Compiled Python files
+*.pyc
+*.pyo
+__pycache__/
+
 #Environment
 .env
