@@ -38,10 +38,15 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-
+    
+    # extra 
+    "decouple",
+    "openai",
+    
     # apps
     'home',
     'chat',
+    'file_search',
 ]
 
 MIDDLEWARE = [
