@@ -14,3 +14,5 @@ completion = client.chat.completions.create(
 )
 
 print(completion.choices[0].message)
+
+## Testing API Calls
