@@ -61,9 +61,14 @@ assistant = client.beta.assistants.update(
     tools=[{"type": "file_search"}]
 )
 
+user_input = "Hi Brian"
+while user_input != "Thank you":
+    # Running threads
+    thread1, run1 = create_thread_and_run(user_input)
+    # Wait for Run 1
+    run1 = wait_on_run(run1, thread1)
+    pretty_print(get_response(thread1))
+    user_input = input("user: ")
 
-# Running threads
-thread1, run1 = create_thread_and_run(input("How can I help you? "))
-# Wait for Run 1
-run1 = wait_on_run(run1, thread1)
-pretty_print(get_response(thread1))
+
+print("assistant: Have a good day! Goodbye")
