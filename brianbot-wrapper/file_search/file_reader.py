@@ -1,6 +1,6 @@
 from decouple import config
 from openai import OpenAI
-from chat import *
+from chat import chat 
 
 client = OpenAI(
     api_key=config('OPENAI_API_KEY')

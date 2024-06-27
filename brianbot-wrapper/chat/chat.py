@@ -46,19 +46,29 @@ def wait_on_run(run, thread):
         time.sleep(0.5)
     return run
 
-# Upload file
-file = client.files.create(
-    file=open(
-        "HR_docs/Travel_Expenses_Policy.txt",
-        "rb",
-    ),
-    purpose="assistants",
+# File Management
+## Create vector to store files
+vector_store = client.beta.vector_stores.create(name="HR Policies")
+
+## Ready the files for upload to OpenAI
+file_paths = ["HR_docs/Travel_Expenses_Policy.txt"]
+file_streams = [open(path, "rb") for path in file_paths]
+ 
+## Use the upload and poll SDK helper to upload the files, add them to the vector store,
+## and poll the status of the file batch for completion.
+file_batch = client.beta.vector_stores.file_batches.upload_and_poll(
+  vector_store_id=vector_store.id, files=file_streams
 )
+ 
+### You can print the status and the file counts of the batch to see the result of this operation.
+print(file_batch.status)
+print(file_batch.file_counts)
 
 # Update Assistant
 assistant = client.beta.assistants.update(
     ASSISTANT_ID,
-    tools=[{"type": "file_search"}]
+    tools=[{"type": "file_search"}],
+    tool_resources={"file_search": {"vector_store_ids": [vector_store.id]}}
 )
 
 user_input = "Hi Brian"
