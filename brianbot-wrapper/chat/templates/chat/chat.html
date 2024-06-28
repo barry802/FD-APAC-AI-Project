@@ -1,123 +1,37 @@
 {% extends 'base.html' %} 
+{% block title %}Brian Bot{% endblock title %}
 {% block content %}
-<html>
-<h2>Hi! I am Brian Bot</h2>
-<h3>Your personal HR assistant</h3>
-<h6>How can I help you today?</h6>
-<head>
-  <title>Brian Bot</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/lib/languages/python.min.js"></script>
+<div class="container" style="margin-top: 50px; max-height:100vh; overflow-y:scroll">
+    {% if not get_history %}
+    <h2 class="text-center">Hi {{request.user.username}}!</h2>
+    <h4 class="text-center">I am Brian Bot</h4>
+    {% endif %}
+    <ol class="list-group mt-5">
+        {% for history in get_history %}
+        <li class="list-group-item rounded d-flex justify-content-between align-items-start p-2 mb-3" style="background-color: white; color:#303030">
+            <div class="ms-2 me-auto">
+                <div class="fw-bold">You ({{history.user.username}}) </div>
+                {{history.messageInput}}
+            </div>
+        </li>
+        <li class="list-group-item rounded d-flex justify-content-between align-items-start p-2 mb-3" style="background-color: #6E00FF;color:white">
+            <div class="ms-2 me-auto">
+                <div class="fw-bold">AI bot </div>
+                {{history.bot_response}}
+            </div>
+        </li>
+        {% endfor %}
+    </ol>
+    <form action="" method="post" class="mt-3">
+        {% csrf_token %}
+        <div class="d-flex mb-3 gap-2">
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="How can I help you?"
+                name="userInput"></textarea>
+            <button class="btn btn-outline-dark" type="submit" id="btn">Send</button>
+        </div>
+    </form>
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/a11y-dark.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
-</head>
-
-<body>
-  <div class="container mt-5">
-    <h1 style="color:white">Brian Bot</h1>
-    <div class="chat-box mt-3">
-      <!-- Chat messages will be added here dynamically -->
-    </div>
-    <div class="form-group mt-3">
-      <textarea class="form-control" rows="3" placeholder="Type your message here" id="message-input"></textarea>
-    </div>
-    <button type="button" class="btn btn-secondary" id="send-btn">Send</button>
-  </div>
-  <script>
-setInterval(highlightAll,1000);
-// Function to highlight code using highlight.js library
-function highlightAll() {
-  document.querySelectorAll("pre code").forEach(block => {
-    hljs.highlightBlock(block);
-  });
-}
-
-    const chatBox = document.querySelector(".chat-box");
-    const messageInput = document.querySelector("#message-input");
-    const sendBtn = document.querySelector("#send-btn");
-
-    function addMessage(message, isUserMessage) {
-      const messageDiv = document.createElement("div");
-      messageDiv.classList.add("mt-3", "p-3", "rounded");
-
-      if (isUserMessage) {
-        messageDiv.classList.add("user-message");
-
-      } else {
-        messageDiv.classList.add("bot-message");
-      }
-
-      messageDiv.innerHTML = `
-        <img src="../static/images/user.png" class="user-icon"><p>${message}</p>
-        `;
-
-      chatBox.appendChild(messageDiv);
-      chatBox.scrollTop = chatBox.scrollHeight;
-    }
-
-
-
-
-    function sendMessage() {
-      const message = messageInput.value.trim();
-
-      if (message !== "") {
-        addMessage(message, true);
-
-        fetch("/api", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ message })
-        })
-          .then(response => response.json())
-          .then(data => {
-                      messageInput.value = "";
-            const messageDiv = document.createElement("div");
-            messageDiv.classList.add("mt-3", "p-3", "rounded");
-            messageDiv.classList.add("bot-message");
-           
-            const content = data.content;
-            
-            // Check if the content has code block
-            const hasCodeBlock = content.includes("```");
-            if (hasCodeBlock) {
-              // If the content has code block, wrap it in a <pre><code> element
-              const codeContent = content.replace(/```([\s\S]+?)```/g, '</p><pre><code>$1</code></pre><p>');
-
-             
-              messageDiv.innerHTML = `<img src="../static/images/gpt.jpg" class="bot-icon"><p>${codeContent}</p>`
-             
-            }
-            else{
-              messageDiv.innerHTML = `<img src="../static/images/gpt.jpg" class="bot-icon"><p>${content}</p>`
-            }
-            chatBox.appendChild(messageDiv);
-            chatBox.scrollTop = chatBox.scrollHeight;
-
-          })
-          .catch(error => console.error(error));
-      }
-    }
-
-    
-    sendBtn.addEventListener("click", sendMessage);
-    messageInput.addEventListener("keydown", event => {
-      if (event.keyCode === 13 && !event.shiftKey) {
-        event.preventDefault();
-        sendMessage();
-      }
-    });
-  </script>
-</body>
+</div>
 {% endblock %}
 
 <!--class="py-2 px-4 ml-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-200 hover:bg-blue-900" -->

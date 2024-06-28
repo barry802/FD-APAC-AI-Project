@@ -1,6 +1,11 @@
-from openai import OpenAI
+from openai import OpenAI, APIConnectionError, RateLimitError
 from decouple import config
+# from django.shortcuts import render, redirect
+# from django.http import HttpResponse
+from django.contrib import messages
 import time
+
+# from .models import BrianBot
 
 
 client = OpenAI(
@@ -46,6 +51,7 @@ def wait_on_run(run, thread):
         time.sleep(0.5)
     return run
 
+
 # File Management
 ## Create vector to store files
 vector_store = client.beta.vector_stores.create(name="HR Policies")
@@ -53,13 +59,13 @@ vector_store = client.beta.vector_stores.create(name="HR Policies")
 ## Ready the files for upload to OpenAI
 file_paths = ["HR_docs/Travel_Expenses_Policy.txt"]
 file_streams = [open(path, "rb") for path in file_paths]
- 
+
 ## Use the upload and poll SDK helper to upload the files, add them to the vector store,
 ## and poll the status of the file batch for completion.
 file_batch = client.beta.vector_stores.file_batches.upload_and_poll(
   vector_store_id=vector_store.id, files=file_streams
-)
- 
+)    
+
 ### You can print the status and the file counts of the batch to see the result of this operation.
 print(file_batch.status)
 print(file_batch.file_counts)
@@ -71,15 +77,27 @@ assistant = client.beta.assistants.update(
     tool_resources={"file_search": {"vector_store_ids": [vector_store.id]}}
 )
 
-while True: 
-    user_input = input("user: ")
-    if user_input.lower() in ["quit", "exit", "bye"]:
-        break
-    # Running threads
-    thread1, run1 = create_thread_and_run(user_input)
-    # Wait for Run 1
-    run1 = wait_on_run(run1, thread1)
-    pretty_print(get_response(thread1))
+def chat():        
+    try:   
+        while True: 
+            user_input = input("user: ")
+            if user_input.lower() in ["quit", "exit", "bye"]:
+                break
+            # Running threads
+            thread1, run1 = create_thread_and_run(user_input)
+            # Wait for Run 1
+            run1 = wait_on_run(run1, thread1)
+            pretty_print(get_response(thread1))
+    
+        print("assistant: Have a good day! Goodbye")
+    
+    except APIConnectionError as e:
+        #Handle connection error here
+        messages.warning(request, "Failed to connect to OpenAI API, check your internet connection")
 
+    except RateLimitError as e:
+        #Handle rate limit error (we recommend using exponential backoff)
+        messages.warning(request, "You exceeded your current quota, please check your plan and billing details.")
+        messages.warning(request, "If you are a developper change the API Key")
 
-print("assistant: Have a good day! Goodbye")
+chat()

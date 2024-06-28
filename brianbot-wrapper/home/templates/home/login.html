@@ -1,9 +1,23 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>Login</h2>
-<form method='post'>{% csrf_token %}
-    {{form.as_p}}
-    <input type='submit' class="btn btn-secondary"/>
-</form>
+
+    <main class="form-signin w-50 m-auto text-center">
+        <form method="post">
+            {% csrf_token %}
+        <img class="mb-4" src="https://www.clipartmax.com/png/middle/245-2454560_how-easy-is-the-video-robot-to-use-video-robot-logo.png" alt="" width="72" height="57">
+        <h1 class="h3 mb-3 fw-normal">Please Log in</h1>
+    
+        <div class="form-floating">
+            {{form.username}}
+            <label for="floatingInput">Username</label>
+        </div>
+        <div class="form-floating">
+            {{form.password}}
+            <label for="floatingPassword">Password</label>
+        </div>
+        <button class="w-30 btn btn-lg btn-primary mt-3" type="submit">Sign in</button>
+        <p class="mt-5 mb-3 text-muted">Don't have an account? <a href="{% url 'signup' %}">Sign up</a> </p>
+        </form>
+    </main>
 
 {% endblock %}

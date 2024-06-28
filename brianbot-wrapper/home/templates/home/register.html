@@ -1,9 +1,32 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Create an Account{% endblock title %}
+
 {% block content %}
-<h2>Create an account</h2>
-<form method='POST' style='text-align: left; margin: 0 auto; width: 600px;'>{% csrf_token %}
-    {{form.as_p}}
-    <input class='btn btn-secondary' type='submit' name='Submit'/>
-</form>
+
+    <main class="form-signin w-50 m-auto text-center">
+        <form method="post">
+            {% csrf_token %}
+        <img class="mb-4" src="https://www.clipartmax.com/png/middle/245-2454560_how-easy-is-the-video-robot-to-use-video-robot-logo.png" alt="" width="72" height="57">
+        <h1 class="h3 mb-3 fw-normal">Create an Account</h1>
+    
+        <div class="form-floating">
+            {{form.username}}
+            <label for="floatingInput">Username</label>
+        </div>
+        <div class="form-floating">
+            {{form.password1}}
+            <label for="floatingPassword">Password</label>
+            
+        </div>
+        <div class="form-floating">
+            {{form.password2}}
+            <label for="floatingPassword">Confirm Password</label>
+        </div>
+        <button class="w-20 btn btn-lg btn-primary mt-3" type="submit">Sign up</button>
+        <p class="mt-5 mb-3 text-muted">Already have an account? <a href="{% url 'login' %}">Log in</a> </p>
+        </form>
+    </main>
 
 {% endblock %}
