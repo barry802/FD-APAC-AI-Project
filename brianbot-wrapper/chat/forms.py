@@ -4,7 +4,7 @@ from .models import Chat
 
 class ChatForm(forms.ModelForm):
     class Meta:
-        model = Notes
+        model = Chat 
         fields = ('title', 'text')
         widgets = {
             'title': forms.TextInput(attr={'class': 'form-control my-5'}),

@@ -71,14 +71,15 @@ assistant = client.beta.assistants.update(
     tool_resources={"file_search": {"vector_store_ids": [vector_store.id]}}
 )
 
-user_input = "Hi Brian"
-while user_input != "Thank you":
+while True: 
+    user_input = input("user: ")
+    if user_input.lower() in ["quit", "exit", "bye"]:
+        break
     # Running threads
     thread1, run1 = create_thread_and_run(user_input)
     # Wait for Run 1
     run1 = wait_on_run(run1, thread1)
     pretty_print(get_response(thread1))
-    user_input = input("user: ")
 
 
 print("assistant: Have a good day! Goodbye")

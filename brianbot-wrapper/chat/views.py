@@ -1,6 +1,7 @@
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+# from .forms import ChatForm
 from .models import Chat
 
 class ChatView(LoginRequiredMixin, TemplateView):

@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Hi! I am Brian Bot</h1>
-    <h2>Your personal HR assistant</h2>
-    <h3>How can I help you today?</h3>
+    <h2>Hi! I am Brian Bot</h2>
+    <h4>Your personal HR assistant</h4>
+    <h6>How can I help you today?</h6>
     <p>Today is {{today}}</p>
     <a href="{% url 'chat' %}" class="btn btn-primary">Start speaking with Brian Bot!</a>
 {% endblock %}

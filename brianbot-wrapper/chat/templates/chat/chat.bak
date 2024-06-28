@@ -1,0 +1,26 @@
+{% extends 'base.html' %} 
+{% block content %}
+<h2>Hi! I am Brian Bot</h2>
+<h3>Your personal HR assistant</h3>
+<h6>How can I help you today?</h6>
+<div class="p-6 w-[800px]">
+  <h1 class="text-3xl tracking-tight font-light" id="chat-header"></h1>
+  <div
+    id="chat-log"
+    class="mt-4 w-full relative p-6 overflow-y-auto h-[30rem] bg-gray-50 border border-gray-200"></div>
+  <div class="mt-4">
+    <input
+      id="chat-message-input"
+      class="py-2 outline-none bg-gray-50 border border-gray-400 text-gray-900 text-sm focus:border-blue-500"
+      type="text"
+      placeholder="Ask your question here."/>
+    <button
+      id="chat-message-submit"
+      class="btn btn-outline-dark me-1"
+      type="submit"
+      >Send</button>
+  </div>
+</div>
+{% endblock %}
+
+<!--class="py-2 px-4 ml-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-200 hover:bg-blue-900" -->
