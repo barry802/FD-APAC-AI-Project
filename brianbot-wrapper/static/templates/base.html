@@ -11,7 +11,6 @@
         <div class='ms-auto'>
           {% if user.is_authenticated %}
           <form action="{% url 'logout' %}"" method='post'>{% csrf_token %}
-              {{form.as_p}}
               <input type='submit' value="Logout" class="btn btn-outline-light me-1">
           </form>
           {% else %}

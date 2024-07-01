@@ -1,11 +1,11 @@
 from openai import OpenAI, APIConnectionError, RateLimitError
 from decouple import config
-# from django.shortcuts import render, redirect
-# from django.http import HttpResponse
+from django.shortcuts import render, redirect
+from django.http import HttpResponse
 from django.contrib import messages
 import time
 
-# from .models import BrianBot
+from .models import BrianBot
 
 
 client = OpenAI(
@@ -77,27 +77,48 @@ assistant = client.beta.assistants.update(
     tool_resources={"file_search": {"vector_store_ids": [vector_store.id]}}
 )
 
-def chat():        
-    try:   
-        while True: 
-            user_input = input("user: ")
-            if user_input.lower() in ["quit", "exit", "bye"]:
-                break
-            # Running threads
-            thread1, run1 = create_thread_and_run(user_input)
-            # Wait for Run 1
-            run1 = wait_on_run(run1, thread1)
-            pretty_print(get_response(thread1))
-    
-        print("assistant: Have a good day! Goodbye")
-    
-    except APIConnectionError as e:
-        #Handle connection error here
-        messages.warning(request, "Failed to connect to OpenAI API, check your internet connection")
+def chat(request):        
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            #get user input from the form
+            user_input = request.POST.get('userInput')
+            #clean input from any white spaces
+            clean_user_input = str(user_input).strip()
+            #send request with user's prompt
+            try:
+                response = client.chat.completions.create(
+                model="gpt-4-turbo",
+                messages=[
+                            {
+                                "role": "user",
+                                "content": clean_user_input,
+                            }
+                        ],
+                    )
+                #get response
+                
+                bot_response = response.choices[0].message.content
+                
+                obj, created = BrianBot.objects.get_or_create(
+                    user=request.user,
+                    messageInput=clean_user_input,
+                    bot_response=bot_response,
+                )    
+            except APIConnectionError as e:
+                #Handle connection error here
+                messages.warning(request, "Failed to connect to OpenAI API, check your internet connection")
 
-    except RateLimitError as e:
-        #Handle rate limit error (we recommend using exponential backoff)
-        messages.warning(request, "You exceeded your current quota, please check your plan and billing details.")
-        messages.warning(request, "If you are a developper change the API Key")
+            except RateLimitError as e:
+                #Handle rate limit error (we recommend using exponential backoff)
+                messages.warning(request, "You exceeded your current quota, please check your plan and billing details.")
+                messages.warning(request, "If you are a developper change the API Key")
+            return redirect(request.META['HTTP_REFERER'])
+        else:
+            #retrieve all messages belong to logged in user
+            get_history = BrianBot.objects.filter(user=request.user)
+            context = {'get_history':get_history}
+            return render(request, 'index.html', context)
+    else:
+        return redirect("login")
 
 chat()
