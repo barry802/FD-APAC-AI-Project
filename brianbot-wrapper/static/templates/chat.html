@@ -1,0 +1,37 @@
+{% extends 'base.html' %} 
+{% block title %}Brian Bot{% endblock title %}
+{% block content %}
+<div class="container" style="margin-top: 50px; max-height:100vh; overflow-y:scroll">
+    {% if not get_history %}
+    <h2 class="text-center">Hi {{request.user.username}}!</h2>
+    <h4 class="text-center">I am Brian Bot</h4>
+    {% endif %}
+    <ol class="list-group mt-5">
+        {% for history in get_history %}
+        <li class="list-group-item rounded d-flex justify-content-between align-items-start p-2 mb-3" style="background-color: white; color:#303030">
+            <div class="ms-2 me-auto">
+                <div class="fw-bold">You ({{history.user.username}}) </div>
+                {{history.messageInput}}
+            </div>
+        </li>
+        <li class="list-group-item rounded d-flex justify-content-between align-items-start p-2 mb-3" style="background-color: #6E00FF;color:white">
+            <div class="ms-2 me-auto">
+                <div class="fw-bold">AI bot </div>
+                {{history.bot_response}}
+            </div>
+        </li>
+        {% endfor %}
+    </ol>
+    <form action="" method="post" class="mt-3">
+        {% csrf_token %}
+        <div class="d-flex mb-3 gap-2">
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="How can I help you?"
+                name="userInput"></textarea>
+            <button class="btn btn-outline-dark" type="submit" id="btn"><i class="bi bi-send-fill"></i>Send</button>
+        </div>
+    </form>
+
+</div>
+{% endblock %}
+
+<!--class="py-2 px-4 ml-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-200 hover:bg-blue-900" -->
