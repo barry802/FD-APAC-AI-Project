@@ -5,7 +5,8 @@ from django.contrib import messages
 from decouple import config
 from openai import OpenAI, RateLimitError, APIConnectionError
 # from .forms import ChatForm
-from chat.models import BrianBot
+import os
+from .models import BrianBot
 
 
 client = OpenAI(
@@ -61,6 +62,6 @@ def chat(request):
             #retrieve all messages belong to logged in user
             get_history = BrianBot.objects.filter(user=request.user)
             context = {'get_history':get_history}
-            return render(request, 'chat.html', context)
+            return render(request, 'chat/chat.html', context)
     else:
         return redirect("login")
