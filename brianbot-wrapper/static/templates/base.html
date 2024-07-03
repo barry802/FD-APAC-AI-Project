@@ -10,7 +10,9 @@
       <nav class='navbar navbar-dark bg-dark'> 
         <div class='ms-auto'>
           {% if user.is_authenticated %}
-          <form action="{% url 'logout' %}"" method='post'>{% csrf_token %}
+          <form class="d-flex" action="{% url 'logout' %}"" method='post'>{% csrf_token %}
+              <a href="{% url 'clear'%}" class="btn btn-outline-light me-1" accesskey="c" onclick="alert('Messages have been cleared!')"
+              title="Alt-c">Clear</a>
               <input type='submit' value="Logout" class="btn btn-outline-light me-1">
           </form>
           {% else %}
