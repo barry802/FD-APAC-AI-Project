@@ -1,7 +1,5 @@
-Global Travel Policy Test
-Company Name
+Title: Global Travel Policy
 
-Effective Date: [Date]
 
 1. Purpose
 The purpose of this Global Travel Policy is to establish guidelines for business travel to ensure the safety, efficiency, and cost-effectiveness of travel arrangements.
@@ -45,10 +43,4 @@ Non-compliance may result in disciplinary action and/or denial of reimbursement 
 12. Policy Review
 This policy will be reviewed annually and updated as necessary to ensure it remains relevant and effective.
 Employee Acknowledgment
-
-I have read and understood the [Company Name] Global Travel Policy and agree to comply with its terms and conditions.
-
-Name:
-Signature:
-Date:
 
