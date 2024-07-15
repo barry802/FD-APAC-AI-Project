@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib import messages
 import time
+import os
 
 from .models import BrianBot
 
@@ -51,13 +52,13 @@ def wait_on_run(run, thread):
         time.sleep(0.5)
     return run
 
-
+print(os.getcwd())
 # File Management
 ## Create vector to store files
 vector_store = client.beta.vector_stores.create(name="HR Policies")
 
 ## Ready the files for upload to OpenAI
-file_paths = ["HR_docs/Travel_Expenses_Policy.txt"]
+file_paths = ["~/HR_docs/Travel Expenses Policy.pdf", "HR_docs/Furlough Policy.pdf", "HR_docs/Global Travel Policy.pdf"]
 file_streams = [open(path, "rb") for path in file_paths]
 
 ## Use the upload and poll SDK helper to upload the files, add them to the vector store,
