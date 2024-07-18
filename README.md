@@ -10,19 +10,19 @@ The project generates a local AI client specifically designed to handle all HR q
 ```
 git clone https://github.com/barry802/FD-APAC-AI-Project.git
 ```
-3. Enter the "brianbot-wrapper" directory
+2. Enter the "brianbot-wrapper" directory
 ```
 cd brianbot-wrapper
 ```
-5. Install requirements
+3. Install requirements
 ```
 pip install -r requirements.txt
 ```
-7. Launch the AI instance
+4. Launch the AI instance
 ```
 python manage.py runserver
 ```
-9. Open the hosting link in your browser
+5. Open the hosting link in your browser
 (e.g. https://127.0.0.1:8000/)
 
 ## Troubleshooting
