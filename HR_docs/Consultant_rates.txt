@@ -1,0 +1,14 @@
+**1. Junior IT Consultant**
+
+- **Rate**: $50 - $100 per hour
+- **Description**: A Junior IT Consultant typically has 0-3 years of experience. They are often involved in basic technical support, software installation/configuration, and assisting with simple project tasks.
+
+**2. Mid-Level IT Consultant**
+
+- **Rate**: $100 - $250 per hour
+- **Description**: A Mid-Level IT Consultant usually has 3-7 years of experience. They handle more complex tasks such as system integration, network design, data analysis, and implementation of IT solutions.
+
+**3. Senior IT Consultant**
+
+- **Rate**: $250 - $400 per hour
+- **Description**: A Senior IT Consultant generally has 7-15 years of experience. They are experts in their fields and are responsible for high
