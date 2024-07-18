@@ -27,9 +27,9 @@ python manage.py runserver
 
 ## Troubleshooting
 In some cases the requirements are not installed correctly due to naming conflicts. 
-Most common cause is the ```pythn-decouple``` package
+Most common cause is the ```python-decouple``` package
 ### Solution
 1. ```pip uninstall decouple```
 2. ```pip install python-decouple```
-3. Repeat steps 4 & 5 from above quickstart guide
+3. Repeat steps 4 & 5 from the above quickstart guide
 
